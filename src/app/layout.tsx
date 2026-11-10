@@ -3,6 +3,7 @@ import { Geist, Overpass } from "next/font/google";
 import Link from "next/link";
 import { Suspense } from "react";
 import { SITE } from "@/lib/site";
+import { Logo } from "@/components/logo";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -11,21 +12,11 @@ const overpass = Overpass({ variable: "--font-overpass", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-  title: { default: `${SITE.name} – find flatmates in Delhi NCR`, template: `%s · ${SITE.name}` },
+  title: { default: `${SITE.name} – find a flatmate you click with in Delhi NCR`, template: `%s · ${SITE.name}` },
   description: "Free, filterable board of flat and flatmate posts across Delhi, Gurugram, Noida, Ghaziabad and Faridabad.",
 };
 
 const LINE_STRIP = ["bg-line-magenta", "bg-line-yellow", "bg-line-blue", "bg-line-green", "bg-line-violet", "bg-line-aqua"];
-
-function Mark() {
-  return (
-    <svg viewBox="0 0 40 24" className="h-6 w-10" aria-hidden="true">
-      <path d="M2 12h36" stroke="#f2b705" strokeWidth="6" strokeLinecap="round" />
-      <path d="M20 2v20" stroke="#c4167c" strokeWidth="6" strokeLinecap="round" />
-      <circle cx="20" cy="12" r="6.5" fill="white" stroke="#15171c" strokeWidth="3.5" />
-    </svg>
-  );
-}
 
 const navLink = "rounded-full px-3 py-2 font-display text-sm font-bold text-ink transition-colors hover:bg-paper";
 
@@ -35,9 +26,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col bg-white text-ink">
         <header className="sticky top-0 z-30 border-b border-ink/5 bg-white">
           <nav className="mx-auto flex max-w-6xl items-center gap-1 px-4 py-2.5">
-            <Link href="/" className="mr-auto flex items-center gap-2 font-display text-lg font-black tracking-tight text-ink">
-              <Mark />
-              <span>NCR Flatmates</span>
+            <Link href="/" className="mr-auto">
+              <Logo />
             </Link>
             <Link href="/browse" className={navLink}>Browse</Link>
             <Link href="/me" className={`${navLink} hidden sm:inline-flex`}>My account</Link>

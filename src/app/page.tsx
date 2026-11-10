@@ -40,11 +40,11 @@ export default async function Home({ searchParams }: PageProps<"/">) {
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-14 pt-10 lg:grid-cols-12 lg:gap-6 lg:pt-14">
         <div className="lg:col-span-5">
           <h1 className="text-balance font-display text-[2.6rem] font-black leading-[1.02] tracking-[-0.035em] text-ink sm:text-6xl">
-            The Facebook flatmate groups, but searchable.
+            Find a flatmate you click with.
           </h1>
           <p className="mt-5 max-w-[46ch] text-lg leading-relaxed text-neutral-700">
-            Every flat and flatmate post in Delhi NCR on one map. Filter by area, rent and habits, see how well you match,
-            and share your WhatsApp only when both of you agree.
+            The Facebook flatmate groups, but searchable. Every flat and flatmate post in Delhi NCR on one map: filter by area,
+            rent and habits, see how well you click, and share your WhatsApp only when both of you agree.
           </p>
 
           <form action="/browse" className="mt-8 rounded-[1.75rem] bg-paper p-3 sm:p-4">
