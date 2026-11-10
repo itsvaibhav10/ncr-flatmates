@@ -17,6 +17,7 @@ export default function Terms() {
           <li>Any rent, deposit or agreement is strictly between you and the other person. We are not responsible for disputes between users.</li>
           <li>We may hide or remove posts and accounts that break these rules or are reported.</li>
         </ul>
+        <p>WhatsApp is a trademark of WhatsApp LLC. We mention it only to describe how matched users contact each other. {SITE.name} is not affiliated with, sponsored by or endorsed by WhatsApp or Meta.</p>
         <p>Report a post using the link on the post, or email <a className="underline" href={`mailto:${SITE.grievanceEmail}`}>{SITE.grievanceEmail}</a>.</p>
       </div>
     </Page>
