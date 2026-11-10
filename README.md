@@ -1,4 +1,6 @@
-# NCR Flatmates
+# Clikkit
+
+_Find a flatmate you click with._ Live at https://clikkit.in
 
 A free, filterable board of flat and flatmate posts for Delhi NCR. It is the Facebook flatmate groups, but searchable, with a lifestyle match score and private contact sharing.
 

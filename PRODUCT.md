@@ -12,7 +12,7 @@ Young working people and students in Delhi NCR (Delhi, Gurugram, Noida, Ghaziaba
 
 ## Product Purpose
 
-NCR Flatmates is one free, searchable board that replaces those groups. People post a room or a need, filter by area, rent, move-in date and habits, see a lifestyle match score with each poster, and connect on WhatsApp only after both sides agree. Success: people find a compatible flatmate without being spammed or exposing their number.
+Clikkit is one free, searchable board that replaces those groups. People post a room or a need, filter by area, rent, move-in date and habits, see a lifestyle match score with each poster, and connect on WhatsApp only after both sides agree. Success: people find a compatible flatmate without being spammed or exposing their number.
 
 ## Positioning
 
@@ -32,7 +32,7 @@ Posts are shared back into WhatsApp and Facebook groups as links with a preview 
 
 ## Brand Commitments
 
-Name: NCR Flatmates. Voice: plain, direct, friendly Indian English; no hype. Footer line: "Free forever. No brokers. Contact shared only after both sides agree."
+Name: Clikkit (domain clikkit.in). Tagline: "Find a flatmate you click with." Voice: plain, direct, friendly Indian English; no hype. Footer line: "Free forever. No brokers. Contact shared only after both sides agree."
 
 ## Evidence on Hand
 

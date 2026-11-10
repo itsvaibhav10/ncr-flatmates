@@ -17,21 +17,25 @@ export default async function Image({ params }: { params: Promise<{ id: string }
 
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, background: "#ecfdf5", color: "#1c1917", fontSize: 40 }}>
-        <div style={{ display: "flex", fontSize: 36, color: "#047857", fontWeight: 700 }}>{SITE.name}</div>
+      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, background: "#ffffff", color: "#15171c", fontSize: 40 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 20, fontSize: 44, fontWeight: 900 }}>
+          <div style={{ display: "flex", width: 72, height: 14, borderRadius: 7, background: "#f2b705" }} />
+          {SITE.name.toLowerCase()}
+          <div style={{ display: "flex", width: 72, height: 14, borderRadius: 7, background: "#c4167c" }} />
+        </div>
         {post ? (
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div style={{ display: "flex", fontSize: 44, color: "#57534e" }}>{post.kind === "have_room" ? "Room available" : "Looking for a room"}</div>
+            <div style={{ display: "flex", fontSize: 44, color: "#525252" }}>{post.kind === "have_room" ? "Room available" : "Looking for a room"}</div>
             <div style={{ display: "flex", fontSize: 80, fontWeight: 700 }}>{post.area}, {post.city}</div>
             <div style={{ display: "flex", fontSize: 64, fontWeight: 700 }}>{rupees(post.rent)}/month</div>
-            <div style={{ display: "flex", fontSize: 40, color: "#57534e" }}>
+            <div style={{ display: "flex", fontSize: 40, color: "#525252" }}>
               From {new Date(post.move_in).toLocaleDateString("en-IN", { day: "numeric", month: "short" })} · {label(GENDER_PREF, post.gender_pref)}
             </div>
           </div>
         ) : (
-          <div style={{ display: "flex", fontSize: 72, fontWeight: 700 }}>Find flatmates in Delhi NCR</div>
+          <div style={{ display: "flex", fontSize: 72, fontWeight: 700 }}>{SITE.tagline}</div>
         )}
-        <div style={{ display: "flex", fontSize: 32, color: "#57534e" }}>Free · See your match score · No brokers</div>
+        <div style={{ display: "flex", fontSize: 32, color: "#525252" }}>Delhi NCR · Free · See how well you click · No brokers</div>
       </div>
     ),
     size,
