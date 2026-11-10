@@ -1,14 +1,14 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
 import { createPost } from "@/app/actions";
-import { Field, Select, btn, input, select } from "@/components/ui";
+import { Field, Select, btn, input } from "@/components/ui";
+import { AreaPicker } from "@/components/area-picker";
 import { DateField } from "@/components/date-field";
-import { CITIES, CITY_NAMES, FURNISHED, GENDER_PREF, KIND, type City } from "@/lib/options";
+import { FURNISHED, GENDER_PREF, KIND } from "@/lib/options";
 
 export function PostForm() {
   const [state, action, pending] = useActionState(createPost, undefined);
-  const [city, setCity] = useState<City | "">("");
 
   return (
     <form action={action} className="grid max-w-2xl gap-5 rounded-[2rem] bg-paper p-6 sm:grid-cols-2 sm:p-8">
@@ -18,18 +18,11 @@ export function PostForm() {
       <Field label="Flatmate preference">
         <Select name="gender_pref" opts={GENDER_PREF} defaultValue="any" />
       </Field>
-      <Field label="City">
-        <select name="city" required value={city} onChange={(e) => setCity(e.target.value as City)} className={select}>
-          <option value="">Choose</option>
-          {CITY_NAMES.map((c) => <option key={c} value={c}>{c}</option>)}
-        </select>
-      </Field>
-      <Field label="Area">
-        <select key={city} name="area" required disabled={!city} defaultValue="" className={select}>
-          <option value="">{city ? "Choose" : "Pick a city first"}</option>
-          {city && CITIES[city].map((a) => <option key={a} value={a}>{a}</option>)}
-        </select>
-      </Field>
+      <div className="sm:col-span-2">
+        <Field label="Area">
+          <AreaPicker mode="single" placeholder="Search your area, e.g. Sector 62 or DLF" />
+        </Field>
+      </div>
       <Field label="Rent per month (₹, your share)">
         <input name="rent" type="number" min={1000} max={200000} step={500} required className={input} />
       </Field>
