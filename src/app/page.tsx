@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { btn, btnGhost, input, select } from "@/components/ui";
-import { MetroMap } from "@/components/metro-map";
+import { IndiaMap } from "@/components/india-map";
 import { MatchLines } from "@/components/match-lines";
-import { CITY_LINE, METROS, METRO_NAMES, rupees, type Lifestyle } from "@/lib/options";
+import { CITY_LINE, METROS, METRO_NAMES, metroOf, rupees, type Lifestyle, type Metro } from "@/lib/options";
 import { matchScore } from "@/lib/match";
 
 type Insight = { city: string; area: string; kind: string; posts: number; median_rent: number };
@@ -26,8 +26,11 @@ export default async function Home({ searchParams }: PageProps<"/">) {
     supabase.from("posts").select("city,area").eq("status", "active").gt("expires_at", new Date().toISOString()).limit(2000),
   ]);
   const insights = (data ?? []) as Insight[];
-  const counts: Record<string, number> = {};
-  for (const p of live ?? []) counts[`${p.city}|${p.area}`] = (counts[`${p.city}|${p.area}`] ?? 0) + 1;
+  const counts: Partial<Record<Metro, number>> = {};
+  for (const p of live ?? []) {
+    const m = metroOf(p.city);
+    if (m) counts[m] = (counts[m] ?? 0) + 1;
+  }
   const total = live?.length ?? 0;
   const demo = matchScore(DEMO_ME, DEMO_THEM);
 
@@ -77,7 +80,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
         </div>
 
         <div className="lg:col-span-7">
-          <MetroMap counts={counts} />
+          <IndiaMap counts={counts} />
           <nav aria-label="Browse by city" className="mt-2 flex flex-wrap gap-2 sm:hidden">
             {METRO_NAMES.map((m) => (
               <Link key={m} href={`/browse?metro=${encodeURIComponent(m)}`} className="flex items-center gap-2 rounded-full bg-paper py-1.5 pl-2 pr-3 font-display text-sm font-bold text-ink">
