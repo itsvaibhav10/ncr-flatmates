@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { getUser } from "@/lib/supabase/server";
 import { POST_SELECT, PostCard, Station, btn, btnGhost, input, select, type PostRow } from "@/components/ui";
-import { CITIES, CITY_NAMES, KIND, LIFESTYLE, isOpt, type City, type Lifestyle } from "@/lib/options";
+import { CITIES, CITY_NAMES, CITY_LINE, KIND, LIFESTYLE, METROS, METRO_NAMES, isOpt, metroOf, type City, type Lifestyle, type Metro } from "@/lib/options";
+import { SITE } from "@/lib/site";
 import { matchScore } from "@/lib/match";
 import { DateField } from "@/components/date-field";
 import { FilterSheet } from "./filter-sheet";
@@ -23,13 +24,17 @@ export default async function Browse({ searchParams }: PageProps<"/browse">) {
     const [c, a] = l.split("|");
     return CITY_NAMES.includes(c as City) && (a === "*" || (CITIES[c as City] as readonly string[]).includes(a));
   }))];
+  // City first: an explicit ?metro=, else the metro of the first chosen area (old map links).
+  const metro = (METRO_NAMES.includes(one("metro") as Metro) ? one("metro") : metroOf(locs[0]?.split("|")[0] ?? "")) as Metro | undefined;
+  const metroCities: readonly City[] = metro ? METROS[metro] : [];
+  const areas = locs.filter((l) => metroCities.includes(l.split("|")[0] as City));
   const maxRent = Number.parseInt(one("max_rent"), 10);
   const moveBy = one("move_by");
   const diet = one("diet");
   const noSmoke = one("no_smoke") === "1";
   const openToMe = one("open_to_me") === "1";
   const sort = one("sort") || "match";
-  const active = locs.length + [kind, one("max_rent"), moveBy, diet, noSmoke ? "1" : "", openToMe ? "1" : ""].filter(Boolean).length;
+  const active = areas.length + [kind, one("max_rent"), moveBy, diet, noSmoke ? "1" : "", openToMe ? "1" : ""].filter(Boolean).length;
 
   const { supabase, user } = await getUser();
   const { data: me } = user
@@ -39,10 +44,11 @@ export default async function Browse({ searchParams }: PageProps<"/browse">) {
   let q = supabase.from("posts").select(POST_SELECT).eq("status", "active").gt("expires_at", new Date().toISOString());
   if (isOpt(KIND, kind)) q = q.eq("kind", kind);
   // Values are whitelisted above, so quoting them into the filter is safe.
-  if (locs.length) q = q.or(locs.map((l) => {
+  if (areas.length) q = q.or(areas.map((l) => {
     const [c, a] = l.split("|");
     return a === "*" ? `city.eq."${c}"` : `and(city.eq."${c}",area.eq."${a}")`;
   }).join(","));
+  else if (metro) q = q.in("city", [...metroCities]);
   if (maxRent > 0) q = q.lte("rent", maxRent);
   if (/^\d{4}-\d{2}-\d{2}$/.test(moveBy)) q = q.lte("move_in", moveBy);
   if (isOpt(LIFESTYLE.diet.opts, diet)) q = q.eq("profiles.diet", diet);
@@ -68,7 +74,25 @@ export default async function Browse({ searchParams }: PageProps<"/browse">) {
           <option value="">Rooms offered & wanted</option>
           {KIND.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
         </select>
-        <AreaPicker mode="multi" defaultValue={locs} placeholder="All of NCR" />
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="City">
+          {METRO_NAMES.map((m) => (
+            <Link key={m} href={metro === m ? "/browse" : `/browse?metro=${encodeURIComponent(m)}`} aria-current={metro === m ? "true" : undefined}
+              className={`flex items-center gap-1.5 rounded-full py-1.5 pl-2 pr-3 font-display text-xs font-bold transition-colors ${metro === m ? "bg-ink text-white" : "bg-white text-ink ring-1 ring-ink/10 hover:ring-ink/30"}`}>
+              <span className={`size-2.5 rounded-full ${CITY_LINE[METROS[m][0]].bg}`} aria-hidden="true" />{m}
+            </Link>
+          ))}
+        </div>
+        {/* shortcut: requests arrive by email; add a table if volume grows. */}
+        <a href={`mailto:${SITE.grievanceEmail}?subject=${encodeURIComponent(`Please add my city to ${SITE.name}`)}`}
+          className="px-1 text-xs font-medium text-signal underline decoration-1 underline-offset-2">Your city not here? Request it</a>
+        {metro ? (
+          <>
+            <input type="hidden" name="metro" value={metro} />
+            <AreaPicker key={metro} mode="multi" defaultValue={areas} cities={metroCities} placeholder={`All of ${metro}`} />
+          </>
+        ) : (
+          <p className="px-1 text-xs text-neutral-600">Pick a city to filter by area.</p>
+        )}
         <input name="max_rent" type="number" min={0} step={1000} defaultValue={one("max_rent")} placeholder="Max rent ₹" className={input} />
         <label className="flex flex-col gap-1.5 font-display font-semibold text-neutral-700">
           Move in by
@@ -95,11 +119,11 @@ export default async function Browse({ searchParams }: PageProps<"/browse">) {
 
       <section>
         <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-          {locs.length === 1 && !locs[0].endsWith("|*") ? (
-            <Station city={locs[0].split("|")[0]} area={locs[0].split("|")[1]} size="lg" />
+          {areas.length === 1 && !areas[0].endsWith("|*") ? (
+            <Station city={areas[0].split("|")[0]} area={areas[0].split("|")[1]} size="lg" />
           ) : (
             <h1 className="font-display text-3xl font-black tracking-tight text-ink sm:text-4xl">
-              {locs.length === 0 ? "All posts in NCR" : locs.length === 1 ? `Posts in ${locs[0].split("|")[0]}` : `Posts in ${locs.length} areas`}
+              {areas.length > 1 ? `Posts in ${areas.length} areas` : areas.length === 1 ? `Posts in ${areas[0].split("|")[0]}` : metro ? `Posts in ${metro}` : "All posts"}
             </h1>
           )}
           <p className="font-display text-sm font-semibold text-neutral-600"><span className="tabular-nums text-ink">{posts.length}{posts.length === LIMIT ? "+" : ""}</span> live {posts.length === 1 ? "post" : "posts"}</p>

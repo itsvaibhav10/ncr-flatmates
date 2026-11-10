@@ -8,7 +8,7 @@ web
 
 ## Users
 
-Young working people and students in Delhi NCR (Delhi, Gurugram, Noida, Ghaziabad, Faridabad) who either have a room in a shared flat and need a flatmate, or need a room in someone else's flat. Today they post and scroll in Facebook groups and WhatsApp groups, where posts are unsearchable, duplicated, and full of brokers. Mostly on phones, often while commuting or between work.
+Young working people and students in India's top metros (Delhi NCR, Bengaluru, Mumbai, Pune, Hyderabad, Chennai; more cities added on request) who either have a room in a shared flat and need a flatmate, or need a room in someone else's flat. Today they post and scroll in Facebook groups and WhatsApp groups, where posts are unsearchable, duplicated, and full of brokers. Mostly on phones, often while commuting or between work.
 
 ## Product Purpose
 

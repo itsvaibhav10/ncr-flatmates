@@ -9,19 +9,19 @@ import { CITIES, CITY_NAMES, CITY_LINE, type City } from "@/lib/options";
 export type Loc = `${City}|${string}`;
 type Item = { key: Loc; city: City; area: string; whole: boolean };
 
-const ALL: Item[] = CITY_NAMES.flatMap((city) => [
+const items = (cities: readonly City[]): Item[] => cities.flatMap((city) => [
   { key: `${city}|*` as Loc, city, area: `All of ${city}`, whole: true },
   ...CITIES[city].map((area) => ({ key: `${city}|${area}` as Loc, city, area, whole: false })),
 ]);
-const byKey = new Map(ALL.map((i) => [i.key, i]));
+const byKey = new Map(items(CITY_NAMES).map((i) => [i.key, i]));
 
 /**
  * Searchable area picker. Multi mode submits repeated `name` inputs ("City|Area");
  * single mode submits separate `city` and `area` inputs so existing server validation is unchanged.
  */
 export function AreaPicker({
-  mode, name = "loc", defaultValue = [], placeholder = "Search an area",
-}: { mode: "single" | "multi"; name?: string; defaultValue?: string[]; placeholder?: string }) {
+  mode, name = "loc", defaultValue = [], placeholder = "Search an area", cities = CITY_NAMES,
+}: { mode: "single" | "multi"; name?: string; defaultValue?: string[]; placeholder?: string; cities?: readonly City[] }) {
   const [selected, setSelected] = useState<Loc[]>(defaultValue.filter((k) => byKey.has(k as Loc)) as Loc[]);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -29,11 +29,12 @@ export function AreaPicker({
   const listId = useId();
   const listRef = useRef<HTMLUListElement>(null);
 
-  const items = useMemo(() => {
+  const list = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const pool = mode === "single" ? ALL.filter((i) => !i.whole) : ALL;
+    const all = items(cities);
+    const pool = mode === "single" ? all.filter((i) => !i.whole) : all;
     return q ? pool.filter((i) => `${i.area} ${i.city}`.toLowerCase().includes(q)) : pool;
-  }, [query, mode]);
+  }, [query, mode, cities]);
 
   const pick = (key: Loc) => {
     if (mode === "single") {
@@ -51,7 +52,7 @@ export function AreaPicker({
   };
 
   const move = (d: number) => {
-    const next = Math.max(0, Math.min(items.length - 1, active + d));
+    const next = Math.max(0, Math.min(list.length - 1, active + d));
     setActive(next);
     listRef.current?.querySelector(`[data-i="${next}"]`)?.scrollIntoView({ block: "nearest" });
   };
@@ -80,20 +81,20 @@ export function AreaPicker({
           <div className="flex items-center gap-2 border-b border-ink/10 px-4 py-3">
             <Search className="size-4 shrink-0 text-ink/50" aria-hidden="true" />
             <input autoFocus value={query} placeholder="Type an area or city"
-              role="combobox" aria-expanded aria-controls={listId} aria-activedescendant={items[active] ? `${listId}-${active}` : undefined}
+              role="combobox" aria-expanded aria-controls={listId} aria-activedescendant={list[active] ? `${listId}-${active}` : undefined}
               onChange={(e) => { setQuery(e.target.value); setActive(0); }}
               onKeyDown={(e) => {
                 if (e.key === "ArrowDown") { e.preventDefault(); move(1); }
                 else if (e.key === "ArrowUp") { e.preventDefault(); move(-1); }
-                else if (e.key === "Enter") { e.preventDefault(); if (items[active]) pick(items[active].key); }
+                else if (e.key === "Enter") { e.preventDefault(); if (list[active]) pick(list[active].key); }
               }}
               className="w-full bg-transparent text-sm text-ink placeholder:text-neutral-500 focus:outline-none" />
           </div>
           <ul ref={listRef} id={listId} role="listbox" aria-multiselectable={mode === "multi"} className="max-h-72 overflow-y-auto p-2">
-            {items.length === 0 && <li className="px-3 py-6 text-center text-sm text-neutral-500">No area matches “{query}”</li>}
-            {items.map((it, i) => {
+            {list.length === 0 && <li className="px-3 py-6 text-center text-sm text-neutral-500">No area matches “{query}”</li>}
+            {list.map((it, i) => {
               const on = selected.includes(it.key);
-              const showCity = i === 0 || items[i - 1].city !== it.city;
+              const showCity = cities.length > 1 && (i === 0 || list[i - 1].city !== it.city);
               return (
                 <li key={it.key} role="presentation">
                   {showCity && !query && (
