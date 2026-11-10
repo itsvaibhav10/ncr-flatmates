@@ -12,7 +12,7 @@ const overpass = Overpass({ variable: "--font-overpass", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-  title: { default: `${SITE.name} – find a flatmate you click with in Delhi NCR`, template: `%s · ${SITE.name}` },
+  title: { default: `${SITE.name} – find a flatmate you click with in India`, template: `%s · ${SITE.name}` },
   description: "Free, filterable board of flat and flatmate posts across Delhi, Gurugram, Noida, Ghaziabad and Faridabad.",
 };
 

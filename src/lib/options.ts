@@ -17,18 +17,61 @@ export const CITIES = {
   ],
   Ghaziabad: ["Indirapuram", "Vaishali", "Vasundhara", "Kaushambi", "Raj Nagar Extension"],
   Faridabad: ["Sector 15", "Sector 21", "NIT", "Greater Faridabad"],
+  Bengaluru: [
+    "Koramangala", "HSR Layout", "Indiranagar", "Whitefield", "Marathahalli", "Bellandur", "Sarjapur Road",
+    "Electronic City", "BTM Layout", "Jayanagar", "JP Nagar", "Bannerghatta Road", "Hebbal", "Yelahanka",
+    "Malleshwaram", "Kalyan Nagar", "KR Puram", "Domlur", "Brookefield", "Hennur",
+  ],
+  Mumbai: [
+    "Andheri West", "Andheri East", "Bandra West", "Bandra East", "Powai", "Goregaon", "Malad", "Kandivali",
+    "Borivali", "Juhu", "Santacruz", "Vile Parle", "Lower Parel", "Worli", "Dadar", "Chembur", "Ghatkopar",
+    "Kurla", "Thane", "Navi Mumbai",
+  ],
+  Pune: [
+    "Hinjewadi", "Wakad", "Baner", "Aundh", "Balewadi", "Kothrud", "Viman Nagar", "Kharadi", "Hadapsar",
+    "Magarpatta", "Koregaon Park", "Kalyani Nagar", "Shivaji Nagar", "Pimple Saudagar", "Wagholi", "Yerwada",
+    "Pashan", "Undri",
+  ],
+  Hyderabad: [
+    "Gachibowli", "HITEC City", "Madhapur", "Kondapur", "Kukatpally", "Banjara Hills", "Jubilee Hills",
+    "Begumpet", "Ameerpet", "Manikonda", "Nanakramguda", "Financial District", "Miyapur", "Secunderabad",
+    "Tolichowki", "Uppal", "Kompally", "Narsingi",
+  ],
+  Chennai: [
+    "OMR", "Velachery", "Adyar", "T Nagar", "Anna Nagar", "Nungambakkam", "Guindy", "Porur", "Sholinganallur",
+    "Perungudi", "Thoraipakkam", "Tambaram", "Mylapore", "Besant Nagar", "Kodambakkam", "Ashok Nagar",
+    "Medavakkam", "Pallikaranai",
+  ],
 } as const;
 
 export type City = keyof typeof CITIES;
 export const CITY_NAMES = Object.keys(CITIES) as City[];
 
+// Users pick a metro first; Delhi NCR spans five cities, the rest are one city each.
+export const METROS = {
+  "Delhi NCR": ["Delhi", "Gurugram", "Noida", "Ghaziabad", "Faridabad"],
+  Bengaluru: ["Bengaluru"],
+  Mumbai: ["Mumbai"],
+  Pune: ["Pune"],
+  Hyderabad: ["Hyderabad"],
+  Chennai: ["Chennai"],
+} as const satisfies Record<string, readonly City[]>;
+export type Metro = keyof typeof METROS;
+export const METRO_NAMES = Object.keys(METROS) as Metro[];
+export const metroOf = (c: string) => METRO_NAMES.find((m) => (METROS[m] as readonly string[]).includes(c));
+
 // Each city's line colour (full class names so Tailwind keeps them).
-export const CITY_LINE: Record<City, { bg: string; text: string; hindi: string }> = {
-  Delhi: { bg: "bg-line-magenta", text: "text-line-magenta", hindi: "दिल्ली" },
-  Gurugram: { bg: "bg-line-yellow", text: "text-[#9a7300]", hindi: "गुरुग्राम" },
-  Noida: { bg: "bg-line-blue", text: "text-line-blue", hindi: "नोएडा" },
-  Ghaziabad: { bg: "bg-line-green", text: "text-line-green", hindi: "ग़ाज़ियाबाद" },
-  Faridabad: { bg: "bg-line-violet", text: "text-line-violet", hindi: "फ़रीदाबाद" },
+export const CITY_LINE: Record<City, { bg: string; text: string }> = {
+  Delhi: { bg: "bg-line-magenta", text: "text-line-magenta" },
+  Gurugram: { bg: "bg-line-yellow", text: "text-[#9a7300]" },
+  Noida: { bg: "bg-line-blue", text: "text-line-blue" },
+  Ghaziabad: { bg: "bg-line-green", text: "text-line-green" },
+  Faridabad: { bg: "bg-line-violet", text: "text-line-violet" },
+  Bengaluru: { bg: "bg-line-violet", text: "text-line-violet" },
+  Mumbai: { bg: "bg-line-blue", text: "text-line-blue" },
+  Pune: { bg: "bg-line-aqua", text: "text-line-aqua" },
+  Hyderabad: { bg: "bg-line-magenta", text: "text-line-magenta" },
+  Chennai: { bg: "bg-line-green", text: "text-line-green" },
 };
 export const cityLine = (c: string) => CITY_LINE[c as City] ?? CITY_LINE.Delhi;
 

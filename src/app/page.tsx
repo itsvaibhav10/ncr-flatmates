@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { btn, btnGhost, input, select } from "@/components/ui";
 import { MetroMap } from "@/components/metro-map";
 import { MatchLines } from "@/components/match-lines";
-import { CITY_LINE, CITY_NAMES, rupees, type Lifestyle } from "@/lib/options";
+import { CITY_LINE, METROS, METRO_NAMES, rupees, type Lifestyle } from "@/lib/options";
 import { matchScore } from "@/lib/match";
 
 type Insight = { city: string; area: string; kind: string; posts: number; median_rent: number };
@@ -43,7 +43,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
             Find a flatmate you click with.
           </h1>
           <p className="mt-5 max-w-[46ch] text-lg leading-relaxed text-neutral-700">
-            Every flat and flatmate post in Delhi NCR, on one map. Filter by area, rent and habits, see how well you click,
+            Flat and flatmate posts across India&apos;s top metros, in one place. Filter by area, rent and habits, see how well you click,
             and share your WhatsApp only when both of you agree.
           </p>
 
@@ -61,9 +61,9 @@ export default async function Home({ searchParams }: PageProps<"/">) {
             </fieldset>
             <div className="mt-3 grid gap-2 sm:grid-cols-[1fr_1fr_auto]">
               <label className="sr-only" htmlFor="hero-city">City</label>
-              <select id="hero-city" name="city" defaultValue="" className={select}>
-                <option value="">All of NCR</option>
-                {CITY_NAMES.map((c) => <option key={c} value={c}>{c}</option>)}
+              <select id="hero-city" name="metro" defaultValue="" className={select}>
+                <option value="">All cities</option>
+                {METRO_NAMES.map((m) => <option key={m} value={m}>{m}</option>)}
               </select>
               <label className="sr-only" htmlFor="hero-rent">Max rent</label>
               <input id="hero-rent" name="max_rent" type="number" min={0} step={1000} inputMode="numeric" placeholder="Max rent ₹" className={input} />
@@ -79,9 +79,9 @@ export default async function Home({ searchParams }: PageProps<"/">) {
         <div className="lg:col-span-7">
           <MetroMap counts={counts} />
           <nav aria-label="Browse by city" className="mt-2 flex flex-wrap gap-2 sm:hidden">
-            {CITY_NAMES.map((c) => (
-              <Link key={c} href={`/browse?city=${c}`} className="flex items-center gap-2 rounded-full bg-paper py-1.5 pl-2 pr-3 font-display text-sm font-bold text-ink">
-                <span className={`size-3 rounded-full ${CITY_LINE[c].bg}`} />{c}
+            {METRO_NAMES.map((m) => (
+              <Link key={m} href={`/browse?metro=${encodeURIComponent(m)}`} className="flex items-center gap-2 rounded-full bg-paper py-1.5 pl-2 pr-3 font-display text-sm font-bold text-ink">
+                <span className={`size-3 rounded-full ${CITY_LINE[METROS[m][0]].bg}`} />{m}
               </Link>
             ))}
           </nav>

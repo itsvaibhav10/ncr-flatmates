@@ -35,7 +35,7 @@ export default async function Image({ params }: { params: Promise<{ id: string }
         ) : (
           <div style={{ display: "flex", fontSize: 72, fontWeight: 700 }}>{SITE.tagline}</div>
         )}
-        <div style={{ display: "flex", fontSize: 32, color: "#525252" }}>Delhi NCR · Free · See how well you click · No brokers</div>
+        <div style={{ display: "flex", fontSize: 32, color: "#525252" }}>India · Free · See how well you click · No brokers</div>
       </div>
     ),
     size,

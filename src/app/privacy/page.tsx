@@ -7,7 +7,7 @@ export default function Privacy() {
   return (
     <Page title="Privacy policy" narrow>
       <div className="max-w-2xl space-y-4 text-sm leading-6 text-neutral-700">
-        <p>{SITE.name} is a free noticeboard for people looking for flats and flatmates in Delhi NCR. This page explains what data we keep and why, as required by the Digital Personal Data Protection Act, 2023.</p>
+        <p>{SITE.name} is a free noticeboard for people looking for flats and flatmates in Indian cities. This page explains what data we keep and why, as required by the Digital Personal Data Protection Act, 2023.</p>
         <h2 className="text-base font-semibold text-neutral-900">What we collect</h2>
         <ul className="list-disc space-y-1 pl-5">
           <li>Your Google account email and ID, to sign you in. We never see your password.</li>
