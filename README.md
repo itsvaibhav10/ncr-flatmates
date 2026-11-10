@@ -2,7 +2,7 @@
 
 _Find a flatmate you click with._ Live at https://clikkit.in
 
-A free, filterable board of flat and flatmate posts for Delhi NCR. It is the Facebook flatmate groups, but searchable, with a lifestyle match score and private contact sharing.
+A free, filterable board of flat and flatmate posts for Delhi NCR. It replaces scattered flatmate groups with one searchable board, with a lifestyle match score and private contact sharing.
 
 Stack: Next.js 16 (App Router), Supabase (Google auth + Postgres + RLS), Tailwind, hosted on Vercel.
 

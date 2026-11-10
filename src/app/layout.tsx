@@ -48,6 +48,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Link href="/privacy" className="hover:text-white">Privacy</Link>
             <Link href="/terms" className="hover:text-white">Terms</Link>
             <a href={`mailto:${SITE.grievanceEmail}`} className="hover:text-white">Grievances</a>
+            <p className="w-full text-xs text-white/50">
+              WhatsApp is a trademark of WhatsApp LLC. {SITE.name} is not affiliated with or endorsed by WhatsApp or Meta.
+            </p>
           </div>
         </footer>
         <Toaster position="bottom-center" toastOptions={{ classNames: { toast: "!rounded-2xl !bg-board !text-white !border-0 font-display font-bold" } }} />

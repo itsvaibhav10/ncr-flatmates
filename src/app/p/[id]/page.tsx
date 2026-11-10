@@ -48,7 +48,7 @@ export default async function PostPage({ params, searchParams }: PageProps<"/p/[
       {isNew && isOwner && (
         <div className="mb-8 rounded-3xl bg-signal-soft p-5 text-signal">
           <p className="font-display text-lg font-black">Your post is live.</p>
-          <p className="mt-1 text-sm">Share the link in your Facebook and WhatsApp groups. People who open it can filter, match, and contact you here.</p>
+          <p className="mt-1 text-sm">Share the link in your groups and chats. People who open it can filter, match, and contact you here.</p>
         </div>
       )}
 

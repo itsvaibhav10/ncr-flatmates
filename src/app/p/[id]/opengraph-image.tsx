@@ -7,7 +7,7 @@ export const alt = "Flatmate post";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Share card for WhatsApp/Facebook previews. Never include contact data here.
+// Share card for link previews in chat apps. Never include contact data here.
 export default async function Image({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const supabase = await createClient();
