@@ -43,8 +43,8 @@ export default async function Home({ searchParams }: PageProps<"/">) {
             Find a flatmate you click with.
           </h1>
           <p className="mt-5 max-w-[46ch] text-lg leading-relaxed text-neutral-700">
-            The Facebook flatmate groups, but searchable. Every flat and flatmate post in Delhi NCR on one map: filter by area,
-            rent and habits, see how well you click, and share your WhatsApp only when both of you agree.
+            Every flat and flatmate post in Delhi NCR, on one map. Filter by area, rent and habits, see how well you click,
+            and share your WhatsApp only when both of you agree.
           </p>
 
           <form action="/browse" className="mt-8 rounded-[1.75rem] bg-paper p-3 sm:p-4">
